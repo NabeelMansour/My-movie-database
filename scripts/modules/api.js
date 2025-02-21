@@ -1,7 +1,17 @@
-import oData from '../data/data.js';
+const apiUrl = "https://santosnr6.github.io/Data/favoritemovies.json";
 
 export async function fetchTopMovies() {
-    const response = await fetch('https://santosnr6.github.io/Data/favoritemovies.json');
+  try {
+    const response = await fetch(apiUrl);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
     let movies = await response.json();
-    oData.topMovieList = movies;
+    return movies;
+  } catch (error) {
+    console.error("Fel vid hämtning av filmdata", error);
+    return [];
+  }
 }

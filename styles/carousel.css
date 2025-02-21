@@ -57,6 +57,7 @@
   margin-bottom: 2rem;
   height: 450px;
   border-bottom: 1px solid white;
+  overflow: hidden;
 }
 
 .trailers__video {
