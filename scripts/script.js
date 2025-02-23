@@ -2,6 +2,7 @@ import { fetchTopMovies } from "./modules/api.js";
 import { getElement } from "./utils/domUtils.js";
 import { renderTrailers } from "./modules/caroussel.js";
 import { searchMovie } from "./modules/eventHandlers.js";
+import { renderMovieDetails } from "./components/movieCard.js";
 
 if (
   window.location.pathname === "/" ||
@@ -15,9 +16,10 @@ if (
 } else if (window.location.pathname === "/favorites.html") {
   console.log("favorites.html");
 } else if (window.location.pathname === "/movie.html") {
-  console.log("movie.html");
+  renderMovieDetails();
 } else if (window.location.pathname === "/search.html") {
   searchMovie();
+  console.log("search");
 }
 
 export function displayMovies(movies) {

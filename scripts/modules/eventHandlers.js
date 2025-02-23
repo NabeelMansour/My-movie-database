@@ -1,9 +1,10 @@
 document.addEventListener("DOMContentLoaded", searchMovie);
+import { renderMovieDetails } from "../components/movieCard.js";
 
 document
   .getElementById("searchForm")
   .addEventListener("submit", function (event) {
-    event.preventDefault(); // Prevent form submission refresh
+    event.preventDefault();
 
     const searchInput = document.getElementById("searchInput").value.trim();
     if (!searchInput) {
@@ -23,6 +24,8 @@ export async function searchMovie(event) {
   const urlParams = new URLSearchParams(window.location.search);
   const searchQuery = urlParams.get("query");
 
+  const movieContainer = document.getElementById("cardContainer");
+
   if (!searchQuery) {
     document.getElementById("cardContainer").innerHTML =
       "<p>No search term found.</p>";
@@ -37,14 +40,12 @@ export async function searchMovie(event) {
     const response = await fetch(url);
     const data = await response.json();
 
-    const movieContainer = document.getElementById("cardContainer");
-
     if (data.Response === "False") {
       movieContainer.innerHTML = `<p>Movie not found.</p>`;
     } else {
       movieContainer.innerHTML = data.Search.map(
         (movie) => `
-          <div class="movie-card">
+          <div class="movie-card" data-id="${movie.imdbID}">
             <h3>${movie.Title} (${movie.Year})</h3>
             <img src="${
               movie.Poster !== "N/A" ? movie.Poster : "placeholder.jpg"
