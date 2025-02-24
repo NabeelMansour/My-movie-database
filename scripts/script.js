@@ -33,12 +33,22 @@ export function displayMovies(movies) {
   cardContainer.innerHTML = "";
 
   movies.forEach((movie) => {
-    cardContainer.innerHTML += `
+    let movieCard = document.createElement("article");
+    movieCard.classList.add("card");
+    movieCard.dataset.id = movie.imdbID;
+
+    movieCard.innerHTML += `
       <article class="card">
         <h2>${movie.Title}</h2>
-        <img src="${movie.Poster}" alt="image of airbean">
+        <img src="${movie.Poster}" alt="image of ${movie.Title}">
       </article>
     `;
+
+    movieCard.addEventListener("click", () => {
+      window.location.href = `movie.html?id=${movie.imdbID}`;
+    });
+
+    cardContainer.appendChild(movieCard);
   });
 }
 
@@ -56,7 +66,7 @@ export function displayRandomMovies(randomMovies) {
     randomCardContainer.innerHTML += `
       <article class="random-card">
         <h2>${movie.Title}</h2>
-        <img src="${movie.Poster}" alt="image of airbean" class="image">
+        <img src="${movie.Poster}" alt="image of ${movie.Title}" class="image">
       </article>
     `;
   });
