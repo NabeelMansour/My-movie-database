@@ -15,3 +15,10 @@ export async function fetchTopMovies() {
     return [];
   }
 }
+
+export async function fetchMovieDetails(imdbid) {
+  const response = await fetch(
+    `https://www.omdbapi.com/?i=${imdbid}&plot=full&apikey=1a195302`
+  );
+  return await response.json();
+}

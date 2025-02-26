@@ -1,3 +1,9 @@
+import {
+  addFavoriteMovie,
+  isFavorite,
+  removeFavoriteMovie,
+} from "../modules/localStorage.js";
+
 document.addEventListener("DOMContentLoaded", renderMovieDetails);
 
 export async function renderMovieDetails() {
@@ -30,15 +36,24 @@ export async function renderMovieDetails() {
       movieInformation.innerHTML = "<p>Movie not found.</p>";
     } else {
       movieInformation.innerHTML = `
-        <article id="movieDetailsContainer">
-          <img id="moviePoster" src="${movieDetails.Poster}" alt="image of ${movieDetails.Title}">
-          <div class="moviePoster-content">
-            <h1 id="movieTitle">${movieDetails.Title}</h1>
-            <p id="movieYear">Year: ${movieDetails.Year}</p>
-            <p id="moviePlot">Plot: ${movieDetails.Plot}</p>
-            <p id="moviePlot">Actors: ${movieDetails.Actors}</p>
-          </div>
-        </article>
+      <article class="movie-card detail-card" data-id="${movieDetails.imdbID}">
+        <span id="card-image">
+          <img src="${movieDetails.Poster}" alt="image of ${
+        movieDetails.Title
+      }">
+          <i class="${
+            isFavorite(movieDetails.imdbID) ? "fa-solid" : "fa-regular"
+          } fa-star favorite-icon" data-id="${
+        movieDetails.imdbID
+      }" style="color: #ffd43b"></i>
+        </span>
+        <div class="moviePoster-content">
+          <h1 id="movieTitle">${movieDetails.Title}</h1>
+          <p id="movieYear">Year: ${movieDetails.Year}</p>
+          <p id="moviePlot">Plot: ${movieDetails.Plot}</p>
+          <p id="moviePlot">Actors: ${movieDetails.Actors}</p>
+        </div>
+      </article>
       `;
     }
   } catch (error) {
@@ -47,12 +62,26 @@ export async function renderMovieDetails() {
 }
 
 document.addEventListener("click", (e) => {
+  const star = e.target.closest(".favorite-icon");
   const movieCard = e.target.closest(".movie-card");
-  if (!movieCard) return; // Ignore clicks outside movie cards
-
   const movieID = movieCard.getAttribute("data-id");
-  if (movieID) {
-    // Redirect to movie.html with the movie ID in the URL
-    window.location.href = `movie.html?id=${movieID}`;
+
+  if (star) {
+    if (isFavorite(movieID)) {
+      removeFavoriteMovie(movieID);
+    } else {
+      addFavoriteMovie(movieID);
+    }
+
+    star.classList.toggle("fa-solid");
+    star.classList.toggle("fa-regular");
+
+    return;
+  }
+
+  if (movieCard) {
+    if (movieID) {
+      window.location.href = `movie.html?id=${movieID}`;
+    }
   }
 });

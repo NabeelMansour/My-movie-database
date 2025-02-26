@@ -3,6 +3,7 @@ import { getElement } from "./utils/domUtils.js";
 import { renderTrailers } from "./modules/caroussel.js";
 import { searchMovie } from "./modules/eventHandlers.js";
 import { renderMovieDetails } from "./components/movieCard.js";
+import { addFavoriteMovie } from "./modules/localStorage.js";
 
 if (
   window.location.pathname === "/" ||
@@ -14,12 +15,11 @@ if (
   let randomMovies = getRandomMovies(movies);
   displayRandomMovies(randomMovies);
 } else if (window.location.pathname === "/favorites.html") {
-  console.log("favorites.html");
+  addFavoriteMovie();
 } else if (window.location.pathname === "/movie.html") {
   renderMovieDetails();
 } else if (window.location.pathname === "/search.html") {
   searchMovie();
-  console.log("search");
 }
 
 export function displayMovies(movies) {
@@ -38,9 +38,12 @@ export function displayMovies(movies) {
     movieCard.dataset.id = movie.imdbID;
 
     movieCard.innerHTML += `
-      <article class="card">
+      <article class="card" data-id="${movie.imdbID}">
         <h2>${movie.Title}</h2>
-        <img src="${movie.Poster}" alt="image of ${movie.Title}">
+        <span id="card-image">
+          <img src="${movie.Poster}" alt="image of ${movie.Title}">
+          <i class="fa-regular fa-star" style="color: #ffd43b" data-favorite="${movieCard.dataset.id}"></i>
+        </span>
       </article>
     `;
 
