@@ -186,7 +186,7 @@ body {
 .fa-star {
   position: absolute;
   top: 1rem;
-  right: 1rem;
+  right: 3rem;
   z-index: 2;
   font-size: 2rem;
   cursor: pointer;
@@ -247,6 +247,10 @@ body {
   }
   .moviePoster-content h1 {
     padding: 1rem 0 2rem 0;
+  }
+
+  .moviePoster-content {
+    width: 90%;
   }
 
   .moviePoster-content #movieYear {
