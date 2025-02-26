@@ -44,10 +44,24 @@ export function removeFavoriteMovie(id) {
   const updatedFavorites = favorites.filter((movie) => movie.imdbID !== id);
   localStorage.setItem("favorite", JSON.stringify(updatedFavorites));
 
-  console.log(updatedFavorites);
+  // Remove movie from the DOM
+  const movieCard = document.querySelector(`.movie-card[data-id="${id}"]`);
+  if (movieCard) {
+    movieCard.remove();
+  }
 }
 
 export function isFavorite(imdbid) {
   const favoriteMovies = getFavoriteMovies();
   return favoriteMovies.some((movie) => movie.imdbID === imdbid);
 }
+
+// Attach event listener to all star icons
+document.addEventListener("DOMContentLoaded", () => {
+  document.body.addEventListener("click", (event) => {
+    if (event.target.classList.contains("favorite-icon")) {
+      const movieId = event.target.dataset.id;
+      removeFavoriteMovie(movieId);
+    }
+  });
+});

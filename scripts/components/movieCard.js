@@ -3,11 +3,12 @@ import {
   isFavorite,
   removeFavoriteMovie,
 } from "../modules/localStorage.js";
+import { getElement } from "../utils/domUtils.js";
 
 document.addEventListener("DOMContentLoaded", renderMovieDetails);
 
 export async function renderMovieDetails() {
-  const movieInformation = document.getElementById("movie-information");
+  const movieInformation = getElement("#movie-information");
 
   if (!movieInformation) {
     console.error("Element #movie-information not found.");
